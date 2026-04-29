@@ -23,6 +23,7 @@ int main () {
 
             // 3. disegnare
                 ClearBackground(gioco.verde);
+                gioco.DisegnaScacchiera();
                 gioco.Disegna();
 
             EndDrawing();

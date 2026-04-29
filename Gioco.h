@@ -18,7 +18,8 @@ public:
     double ultimoAggiornamentoTempo = 0;
     Snake snake = Snake();
     Cibo cibo = Cibo(snake.corpo, numCelle);
-    Color verde = {173, 204, 96, 255};
+    Color verdechiaro = {170, 215, 81, 255};
+    Color verde = {162, 209, 73, 255};
     Color verdescuro = {43, 51, 24, 255};
     bool running = true;
 
@@ -110,6 +111,23 @@ public:
         return false;
     }
 
+    void DisegnaScacchiera() {
+        int x, y;
+        Color colore;
+        for (int i=0; i<numCelle; i++) {
+            for (int j=0; j<numCelle; j++) {
+                colore = verdechiaro;
+                if ((i+j) % 2 == 0) {
+                    colore = verde;
+                }
+
+                x = i*grandezzaCella;
+                y = j*grandezzaCella;
+                DrawRectangle(x, y, grandezzaCella, grandezzaCella, colore);
+            }
+        }
+    }
+    
 };
 
 #endif
