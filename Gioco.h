@@ -44,21 +44,22 @@ public:
 
     void ControllaComandi() {
         //se vado in una direzione, non posso andare nella direzione opposta
+        //destra
         if (snake.MuoveDestra() && snake.direzione.x != -1) {
             snake.direzione = {1, 0};
             running = true;
         }
-        // SINISTRA: Puoi andare a sinistra solo se NON stai andando a destra
+        //sinistra
         if (snake.MuoveSinistra() && snake.direzione.x != 1) {
             snake.direzione = {-1, 0};
             running = true;
         }
-        // SOPRA: Puoi andare sopra solo se NON stai andando sotto
+        //sopra
         if (snake.MuoveSopra() && snake.direzione.y != 1) {
             snake.direzione = {0, -1};
             running = true;
         }
-        // SOTTO: Puoi andare sotto solo se NON stai andando sopra
+        //sotto
         if (snake.MuoveSotto() && snake.direzione.y != -1) {
             snake.direzione = {0, 1};
             running = true;
