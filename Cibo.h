@@ -3,6 +3,7 @@
 
 #include <raylib.h>
 #include <deque>
+#include "Utility.h"
 using namespace std;
 
 class Cibo {
@@ -44,15 +45,6 @@ public:
         DrawTextureEx(mela, posSchermo, 0.0f, scala, WHITE);
     }
 
-    bool ElementoInDeque(deque<Vector2> corpoSerpente, Vector2 elemento) {
-        for (unsigned int i = 0; i < corpoSerpente.size(); i++) {
-            if (Vector2Equals(corpoSerpente[i], elemento)) {
-                return true; //trovato (non buono)
-            }
-        }
-        return false; //non trovato (buono)
-    }
-
     Vector2 GeneraPosRandom() {
         float x = GetRandomValue(0, limiteCampo-1);
         float y = GetRandomValue(0, limiteCampo-1);
@@ -63,7 +55,7 @@ public:
     Vector2 NuovaPos(deque<Vector2> corpoSnake) {
         Vector2 pos = GeneraPosRandom();
         //finché la posizione NON è nel corpo del serpente, continua a cercarne una nuova
-        while (ElementoInDeque(corpoSnake, pos)) {
+        while (Utility::ElementoInDeque(pos, corpoSnake)) {
             pos = GeneraPosRandom();
         }
         return pos;

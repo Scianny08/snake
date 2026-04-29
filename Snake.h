@@ -38,7 +38,7 @@ public:
         }
     }
 
-    void AggiornaPos() {
+    void Aggiorna() {
         //somma vettori
         //es. testa serpente in {7,9} + {1,0} (direzione: destra) = aggiungi in testa alla deque a destra {8,9}
         corpo.push_front(Vector2Add(corpo[0], direzione)); //aggiungi avanti
@@ -46,8 +46,14 @@ public:
         if (aggiuntaPezzo) {
             aggiuntaPezzo = false;
         } else {
-            corpo.pop_back(); //togli dietro
+            corpo.pop_back(); //tolgo dietro perché sono andato avanti
         }
+    }
+
+    void Reset() {
+        //posizione, dimensione e direzione iniziali
+        corpo = {Vector2{6, 9}, Vector2{5, 9}, Vector2{4, 9}};
+        direzione = {1, 0};
     }
 
     //comandi
