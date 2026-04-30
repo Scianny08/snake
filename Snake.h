@@ -41,10 +41,12 @@ public:
     }
 
     void Aggiorna() {
-        //somma vettori
-        //es. testa serpente in {7,9} + {1,0} (direzione: destra) = aggiungi in testa alla deque a destra {8,9}
+        //vado in avanti: aggiungo una cella nella direzione in cui vado, tolgo una dietro per dare l'illusione di essere andato in avanti
+        //al cambio di direzione il resto del corpo del serpente rimane attaccato perché le celle sono state già disegnate
+        //somma vettori: es. testa serpente in {7,9} + {1,0} (direzione: destra) = aggiungi in testa alla deque a destra {8,9}
         corpo.push_front(Vector2Add(corpo[0], direzione)); //aggiungi avanti
 
+        //se ha mangiato deve crescere quindi per un frame fermo la logica del togli-dietro
         if (haMangiato) {
             haMangiato = false;
         } else {
