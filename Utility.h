@@ -28,9 +28,9 @@ public:
         
         if (tempoTrascorso >= intervallo) {
             ultimoAggiornamentoTempo = tempoAttuale;
-            return true;
+            return true; //intervallo superato
         }
-        return false;
+        return false; //intervallo non superato
     }
 };
 #endif
