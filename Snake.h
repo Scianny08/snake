@@ -16,7 +16,7 @@ public:
         Vector2{4, 9}  //coda  [2]
     };
     Vector2 direzione = {1, 0};
-    bool aggiuntaPezzo = false;
+    bool haMangiato = false;
 
     void Disegna(int grandezzaCella, Color colore) {
         unsigned int i; //unsigned perché corpo.size() restituisce un senza-segno
@@ -44,8 +44,8 @@ public:
         //es. testa serpente in {7,9} + {1,0} (direzione: destra) = aggiungi in testa alla deque a destra {8,9}
         corpo.push_front(Vector2Add(corpo[0], direzione)); //aggiungi avanti
 
-        if (aggiuntaPezzo) {
-            aggiuntaPezzo = false;
+        if (haMangiato) {
+            haMangiato = false;
         } else {
             corpo.pop_back(); //tolgo dietro perché sono andato avanti
         }

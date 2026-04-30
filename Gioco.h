@@ -24,6 +24,7 @@ public:
     Color verde = {162, 209, 73, 255};
     Color verdescuro = {43, 51, 24, 255};
     bool running = true;
+    int punteggio = 0;
 
 
     void Disegna() {
@@ -73,7 +74,8 @@ public:
     void CollisioneConCibo() {
         if (Vector2Equals(snake.corpo[0], cibo.posizione)) {
             cibo.posizione = cibo.NuovaPos(snake.corpo);
-            snake.aggiuntaPezzo = true;
+            snake.haMangiato = true;
+            punteggio++;
         } //fine if
     } //fine metodo
 
@@ -101,6 +103,7 @@ public:
         running = false;
         snake.Reset();
         cibo.posizione = cibo.NuovaPos(snake.corpo);
+        punteggio = 0;
     }
 
     bool EventTriggered(double intervallo) {

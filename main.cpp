@@ -25,6 +25,9 @@ int main () {
             // 3. disegnare
                 ClearBackground(gioco.verde);
                 gioco.DisegnaCampo();
+                //testo, x, y, fontsize, colore
+                DrawText("Snake Matico", offset-5, 10, 35, WHITE);
+                DrawText(TextFormat("Punteggio: %i", gioco.punteggio), offset-5, 45, 20, WHITE);
                 gioco.Disegna();
 
             EndDrawing();
