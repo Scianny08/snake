@@ -17,7 +17,7 @@ public:
     int grandezzaCella = 30;
     int numCelle = 25;
     int offset = utility.offset;
-    float latoCampo = grandezzaCella*numCelle;
+    float campo = grandezzaCella*numCelle;
     
     Snake snake = Snake();
     Cibo cibo;
@@ -26,7 +26,7 @@ public:
     Color verde = {162, 209, 73, 255};
     Color verdescuro = {43, 51, 24, 255};
 
-    bool running = true;
+    bool running = false;
     int punteggio = 0;
 
     
@@ -45,12 +45,19 @@ public:
         }
     }
 
-    void ControllaCollisioni() {
+    int ControllaCollisioni() {
         if (running) {
             CollisioneConCibo();
-            CollisioneConCorpo();
-            CollisioneConBordi();
+            
+            if (CollisioneConCorpo()) {
+                return 1;
+            }
+
+            if (CollisioneConBordi()) {
+                return 2;
+            }
         }
+        return 0;
     }
 
     void ControllaComandi() {
@@ -85,24 +92,28 @@ public:
         } //fine if
     } //fine metodo
 
-    void CollisioneConBordi() {
-        bool toccatoDestra = (snake.corpo[0].x == numCelle);
-        bool toccatoSinistra = (snake.corpo[0].x == -1);
-        bool toccatoSotto = (snake.corpo[0].y == numCelle);
-        bool toccatoSopra = (snake.corpo[0].y == -1);
+    bool CollisioneConBordi() {
+        bool toccatoDestra = (snake.corpo[0].x >= numCelle);
+        bool toccatoSinistra = (snake.corpo[0].x < 0);
+        bool toccatoSotto = (snake.corpo[0].y >= numCelle);
+        bool toccatoSopra = (snake.corpo[0].y < 0);
 
         if (toccatoDestra || toccatoSinistra || toccatoSotto || toccatoSopra) {
             GameOver();
+            return true; //collisione
         }
+        return false;
     }
 
-    void CollisioneConCorpo() {
+    bool CollisioneConCorpo() {
         deque<Vector2> senzaTesta = snake.corpo;
         senzaTesta.pop_front();
 
         if (utility.ElementoInDeque(snake.corpo[0], senzaTesta)) {
             GameOver();
+            return true; //collisione
         }
+        return false;
     }
 
     void GameOver() {
@@ -135,7 +146,7 @@ public:
         //se non usassi -5 (meno lo spessore) il bordo entrebbe nel campo da gioco
         //+10 viene usato perché sono già andato indietro di 5
         //lo spessore essendo di 5 devo sommarlo a 5 perché altrimenti entrebbe nel campo da gioco giù a destra
-        Rectangle bordo = {(float)offset-5, (float)offset-5, latoCampo+10, latoCampo+10};
+        Rectangle bordo = {(float)offset-5, (float)offset-5, campo+10, campo+10};
         DrawRectangleLinesEx(bordo, 5, verdescuro);
 
         DisegnaScacchiera();
