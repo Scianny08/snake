@@ -8,6 +8,7 @@ int main () {
     Utility utility;
     float latoCampo = gioco.latoCampo;
     int offset = utility.offset;
+    double velocitaSerpente = 200; //millisecondi
 
     InitWindow(2*offset+latoCampo, 2*offset+latoCampo, "Snake");
 
@@ -17,17 +18,21 @@ int main () {
         while (WindowShouldClose() == false) {
             BeginDrawing();
             // 1. gestione eventi
-
-                gioco.ControllaEventi();
+                gioco.ControllaComandi();
                 
             // 2. aggiornare posizioni
-                //il serpentesi muove ogni 200 millisecondi 
+                //il serpente si muove ogni velocitaSerpente millisecondi
                 //altrimenti si muoverebbe agli fps settati
-                if (utility.EventTriggered(0.2)) gioco.AggiornaSerpente();
+                if (utility.EventTriggered(velocitaSerpente/1000)) {
+                    gioco.AggiornaSerpente();
+                    //il controllo avviene dopo il movimento e prima del disegno,
+                    //in questo modo il serpente non esce dal campo se va contro il bordo
+                    gioco.ControllaCollisioni();
+                }
 
             // 3. disegnare
                 ClearBackground(gioco.verde);
-                
+
                 gioco.DisegnaCampo();
 
                 //testo, x, y, fontsize, colore

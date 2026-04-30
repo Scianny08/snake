@@ -45,12 +45,11 @@ public:
         }
     }
 
-    void ControllaEventi() {
-        ControllaComandi();
+    void ControllaCollisioni() {
         if (running) {
             CollisioneConCibo();
-            CollisioneConBordi();
             CollisioneConCorpo();
+            CollisioneConBordi();
         }
     }
 
