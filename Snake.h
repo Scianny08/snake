@@ -1,6 +1,7 @@
 #ifndef SNAKE_H //se NON è ancora stato definito (if not defined) un simbolo/identificatore chiamato SNAKE_H
 #define SNAKE_H //allora definiscilo ora
 
+#include "Utility.h"
 #include <raylib.h>
 #include <raymath.h>
 #include <deque> //deque: struttura che permette di fare pop e push sia in testa sia in coda
@@ -26,8 +27,8 @@ public:
         for (i=0; i<corpo.size(); i++) {
             x = corpo[i].x;
             y = corpo[i].y;
-            posX = x*grandCella;
-            posY = y*grandCella;
+            posX = x*grandCella + Utility::offset;
+            posY = y*grandCella + Utility::offset;
 
             Rectangle cella = Rectangle{posX, posY, grandCella, grandCella};
 
@@ -57,8 +58,8 @@ public:
     }
 
     //comandi
-    bool MuoveSopra() {return IsKeyDown(KEY_UP) || IsKeyDown(KEY_W);}
-    bool MuoveSotto() {return IsKeyDown(KEY_DOWN) || IsKeyDown(KEY_S);}
+    bool MuoveSu() {return IsKeyDown(KEY_UP) || IsKeyDown(KEY_W);}
+    bool MuoveGiu() {return IsKeyDown(KEY_DOWN) || IsKeyDown(KEY_S);}
     bool MuoveDestra() {return IsKeyDown(KEY_RIGHT) || IsKeyDown(KEY_D);}
     bool MuoveSinistra() {return IsKeyDown(KEY_LEFT) || IsKeyDown(KEY_A);}
 };

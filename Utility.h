@@ -8,6 +8,9 @@ using namespace std;
 
 class Utility {
 public:
+    //offset per contorno del campo
+    static const int offset = 75;
+
     //uso di static per evitare di creare un oggetto di classe Utility
     static bool ElementoInDeque( Vector2 elemento, deque<Vector2> deque) {
         for (unsigned int i = 0; i < deque.size(); i++) {

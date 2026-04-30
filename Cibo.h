@@ -37,8 +37,8 @@ public:
 
         //moltiplico le coordinate per la grandezza in modo tale da adattarle al campo di gioco
         Vector2 posSchermo = { 
-            posizione.x * grandezza + offset, 
-            posizione.y * grandezza + offset 
+            posizione.x * grandezza + offset + Utility::offset, 
+            posizione.y * grandezza + offset + Utility::offset
         };
 
         // DrawTextureEx(texture, posizione, rotazione, scala, tinta)

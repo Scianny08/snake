@@ -11,9 +11,11 @@ using namespace std;
 
 class Gioco {
 public:
-    //static const permette l'uso esterno
     static const int grandezzaCella = 30;
     static const int numCelle = 25;
+    int offset = Utility::offset;
+    //static const permette l'uso esterno
+    static const int latoCampo = grandezzaCella*numCelle;
 
     double ultimoAggiornamentoTempo = 0;
     Snake snake = Snake();
@@ -22,6 +24,7 @@ public:
     Color verde = {162, 209, 73, 255};
     Color verdescuro = {43, 51, 24, 255};
     bool running = true;
+
 
     void Disegna() {
         cibo.Disegna(grandezzaCella);
@@ -55,13 +58,13 @@ public:
             snake.direzione = {-1, 0};
             running = true;
         }
-        //sopra
-        if (snake.MuoveSopra() && snake.direzione.y != 1) {
+        //su
+        if (snake.MuoveSu() && snake.direzione.y != 1) {
             snake.direzione = {0, -1};
             running = true;
         }
-        //sotto
-        if (snake.MuoveSotto() && snake.direzione.y != -1) {
+        //giu
+        if (snake.MuoveGiu() && snake.direzione.y != -1) {
             snake.direzione = {0, 1};
             running = true;
         }
@@ -121,11 +124,23 @@ public:
                     colore = verde;
                 }
 
-                x = i*grandezzaCella;
-                y = j*grandezzaCella;
+                x = i*grandezzaCella + offset;
+                y = j*grandezzaCella + offset;
                 DrawRectangle(x, y, grandezzaCella, grandezzaCella, colore);
             }
         }
+    }
+
+    void DisegnaCampo() {
+        //Bordo esterno: rettangolo, spessore, colore
+        //uso di offset-5 per centrare il bordo rispetto al campo da in altro a sinistra
+        //se non usassi -5 (meno lo spessore) il bordo entrebbe nel campo da gioco
+        //+10 viene usato perché sono già andato indietro di 5
+        //lo spessore essendo di 5 devo sommarlo a 5 perché altrimenti entrebbe nel campo da gioco giù a destra
+        Rectangle bordo = {(float)offset-5, (float)offset-5, latoCampo+10, latoCampo+10};
+        DrawRectangleLinesEx(bordo, 5, verdescuro);
+
+        DisegnaScacchiera();
     }
     
 };

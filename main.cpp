@@ -1,12 +1,13 @@
-#include <iostream>
 #include <raylib.h>
 #include "Gioco.h"
+#include "Utility.h"
 using namespace std;
 
 int main () {
-    int latoCampo = Gioco::grandezzaCella * Gioco::numCelle;
+    int latoCampo = Gioco::latoCampo;
+    int offset = Utility::offset;
 
-    InitWindow(latoCampo, latoCampo, "Snake");
+    InitWindow(2*offset+latoCampo, 2*offset+latoCampo, "Snake");
         Gioco gioco = Gioco();
 
         SetTargetFPS(30);
@@ -23,7 +24,7 @@ int main () {
 
             // 3. disegnare
                 ClearBackground(gioco.verde);
-                gioco.DisegnaScacchiera();
+                gioco.DisegnaCampo();
                 gioco.Disegna();
 
             EndDrawing();
