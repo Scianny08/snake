@@ -11,15 +11,17 @@ int main () {
     Utility utility;
 
     int offset = utility.offset;
-    float latoCampo = 2*offset+gioco.campo;
+    float latoCampo = 2*offset+gioco.calcolaCampoGioco();
     double velocitaSerpente = 200; //millisecondi
 
     float btnGiocaLarghezza = 200;
     float btnGiocaAltezza = 60;
     const char* nomeGioco = "Snake Matico";
     const char* msgMorte = "";
+    const char* msgPunti = "";
     float larghezzaNomeGioco60 = 0;
     float larghezzaMsgMorte = 0;
+    float larghezzaMsgPunti = 0;
     int tipoCollisione = 0; //1: corpo, 2: bordi
 
     InitWindow(latoCampo, latoCampo, nomeGioco);
@@ -32,7 +34,9 @@ int main () {
             BeginDrawing();
             
             // 1. gestione eventi
-                gioco.ControllaComandi();
+                if (gioco.running) {
+                    gioco.ControllaComandi();
+                }
                 
             // 2. aggiornare posizioni
                 //il serpente si muove ogni velocitaSerpente millisecondi
@@ -59,10 +63,10 @@ int main () {
 
                     //definizione del rettangolo gioca per riusarlo
                     Rectangle rectGioca = {
-                        latoCampo/2 - btnGiocaLarghezza/2, //x
-                        latoCampo/2 - btnGiocaAltezza/2,   //y
-                        btnGiocaLarghezza,                 //larghezza
-                        btnGiocaAltezza                    //altezza
+                        latoCampo/2 - btnGiocaLarghezza/2,      //x
+                        latoCampo/2 - btnGiocaAltezza/2 + 70,   //y
+                        btnGiocaLarghezza,                      //larghezza
+                        btnGiocaAltezza                         //altezza
                     };
 
                     //controllo hover
@@ -84,6 +88,10 @@ int main () {
 
                         larghezzaMsgMorte = MeasureText(msgMorte, 20);
                         DrawText(msgMorte, latoCampo/2-larghezzaMsgMorte/2, 300, 20, WHITE);
+
+                        msgPunti = TextFormat("Punteggio totale: %i", gioco.punteggio);
+                        larghezzaMsgPunti = MeasureText(msgPunti, 25);
+                        DrawText(msgPunti, latoCampo/2-larghezzaMsgPunti/2, 350, 25, WHITE);
                     }
 
                     //disegno bottone e gestione del clic

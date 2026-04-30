@@ -15,9 +15,8 @@ private:
 
 public:
     int grandezzaCella = 30;
-    int numCelle = 25;
+    int numCelle = 20;
     int offset = utility.offset;
-    float campo = grandezzaCella*numCelle;
     
     Snake snake = Snake();
     Cibo cibo;
@@ -29,7 +28,10 @@ public:
     bool running = false;
     int punteggio = 0;
 
-    
+    float calcolaCampoGioco() {
+        return grandezzaCella*numCelle;
+    }
+
     void Disegna() {
         cibo.Disegna(grandezzaCella);
         snake.Disegna(grandezzaCella, verdescuro);
@@ -65,22 +67,18 @@ public:
         //destra
         if (snake.MuoveDestra() && snake.direzione.x != -1) {
             snake.direzione = {1, 0};
-            running = true;
         }
         //sinistra
         if (snake.MuoveSinistra() && snake.direzione.x != 1) {
             snake.direzione = {-1, 0};
-            running = true;
         }
         //su
         if (snake.MuoveSu() && snake.direzione.y != 1) {
             snake.direzione = {0, -1};
-            running = true;
         }
         //giu
         if (snake.MuoveGiu() && snake.direzione.y != -1) {
             snake.direzione = {0, 1};
-            running = true;
         }
     }
 
@@ -146,7 +144,7 @@ public:
         //se non usassi -5 (meno lo spessore) il bordo entrebbe nel campo da gioco
         //+10 viene usato perché sono già andato indietro di 5
         //lo spessore essendo di 5 devo sommarlo a 5 perché altrimenti entrebbe nel campo da gioco giù a destra
-        Rectangle bordo = {(float)offset-5, (float)offset-5, campo+10, campo+10};
+        Rectangle bordo = {(float)offset-5, (float)offset-5, calcolaCampoGioco()+10, calcolaCampoGioco()+10};
         DrawRectangleLinesEx(bordo, 5, verdescuro);
 
         DisegnaScacchiera();
