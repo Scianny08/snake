@@ -10,26 +10,33 @@
 using namespace std;
 
 class Gioco {
-public:
-    static const int grandezzaCella = 30;
-    static const int numCelle = 25;
-    int offset = Utility::offset;
-    //static const permette l'uso esterno
-    static const int latoCampo = grandezzaCella*numCelle;
+private:
+    Utility utility;
 
-    double ultimoAggiornamentoTempo = 0;
+public:
+    int grandezzaCella = 30;
+    int numCelle = 25;
+    int offset = utility.offset;
+    float latoCampo = grandezzaCella*numCelle;
+    
     Snake snake = Snake();
-    Cibo cibo = Cibo(snake.corpo, numCelle);
+    Cibo cibo;
+
     Color verdechiaro = {170, 215, 81, 255};
     Color verde = {162, 209, 73, 255};
     Color verdescuro = {43, 51, 24, 255};
+
     bool running = true;
     int punteggio = 0;
 
-
+    
     void Disegna() {
         cibo.Disegna(grandezzaCella);
         snake.Disegna(grandezzaCella, verdescuro);
+    }
+
+    void generaCibo() {
+        cibo.generaCibo(snake.corpo, numCelle);
     }
 
     void AggiornaSerpente() {
@@ -94,7 +101,7 @@ public:
         deque<Vector2> senzaTesta = snake.corpo;
         senzaTesta.pop_front();
 
-        if (Utility::ElementoInDeque(snake.corpo[0], senzaTesta)) {
+        if (utility.ElementoInDeque(snake.corpo[0], senzaTesta)) {
             GameOver();
         }
     }
@@ -104,17 +111,6 @@ public:
         snake.Reset();
         cibo.posizione = cibo.NuovaPos(snake.corpo);
         punteggio = 0;
-    }
-
-    bool EventTriggered(double intervallo) {
-        double tempoAttuale = GetTime();
-        double tempoTrascorso = tempoAttuale - ultimoAggiornamentoTempo;
-        
-        if (tempoTrascorso >= intervallo) {
-            ultimoAggiornamentoTempo = tempoAttuale;
-            return true;
-        }
-        return false;
     }
 
     void DisegnaScacchiera() {

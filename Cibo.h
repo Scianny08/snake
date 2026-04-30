@@ -7,13 +7,15 @@
 using namespace std;
 
 class Cibo {
+private:
+    Utility utility;
+
 public:
     Vector2 posizione;
     Texture2D mela;
     int limiteCampo;
 
-    //costruttore
-    Cibo(deque<Vector2> corpoSnake, int limite) {
+    void generaCibo(deque<Vector2> corpoSnake, int limite) {
         limiteCampo = limite;
 
         Image imgMela = LoadImage("Grafica/mela.png");
@@ -37,8 +39,8 @@ public:
 
         //moltiplico le coordinate per la grandezza in modo tale da adattarle al campo di gioco
         Vector2 posSchermo = { 
-            posizione.x * grandezza + offset + Utility::offset, 
-            posizione.y * grandezza + offset + Utility::offset
+            posizione.x * grandezza + offset + utility.offset, 
+            posizione.y * grandezza + offset + utility.offset
         };
 
         // DrawTextureEx(texture, posizione, rotazione, scala, tinta)
@@ -55,7 +57,7 @@ public:
     Vector2 NuovaPos(deque<Vector2> corpoSnake) {
         Vector2 pos = GeneraPosRandom();
         //finché la posizione NON è nel corpo del serpente, continua a cercarne una nuova
-        while (Utility::ElementoInDeque(pos, corpoSnake)) {
+        while (utility.ElementoInDeque(pos, corpoSnake)) {
             pos = GeneraPosRandom();
         }
         return pos;

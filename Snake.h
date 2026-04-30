@@ -8,6 +8,9 @@
 using namespace std;
 
 class Snake {
+private:
+    Utility utility;
+
 public:
     //testa, corpo, coda
     deque<Vector2> corpo = {
@@ -27,8 +30,8 @@ public:
         for (i=0; i<corpo.size(); i++) {
             x = corpo[i].x;
             y = corpo[i].y;
-            posX = x*grandCella + Utility::offset;
-            posY = y*grandCella + Utility::offset;
+            posX = x*grandCella + utility.offset;
+            posY = y*grandCella + utility.offset;
 
             Rectangle cella = Rectangle{posX, posY, grandCella, grandCella};
 

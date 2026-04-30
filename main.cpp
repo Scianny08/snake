@@ -4,23 +4,26 @@
 using namespace std;
 
 int main () {
-    int latoCampo = Gioco::latoCampo;
-    int offset = Utility::offset;
+    Gioco gioco;
+    Utility utility;
+    float latoCampo = gioco.latoCampo;
+    int offset = utility.offset;
 
     InitWindow(2*offset+latoCampo, 2*offset+latoCampo, "Snake");
-        Gioco gioco = Gioco();
 
+        gioco.generaCibo();
         SetTargetFPS(30);
 
         while (WindowShouldClose() == false) {
             BeginDrawing();
             // 1. gestione eventi
+
                 gioco.ControllaEventi();
                 
             // 2. aggiornare posizioni
                 //il serpentesi muove ogni 200 millisecondi 
                 //altrimenti si muoverebbe agli fps settati
-                if (gioco.EventTriggered(0.2)) gioco.AggiornaSerpente();
+                if (utility.EventTriggered(0.2)) gioco.AggiornaSerpente();
 
             // 3. disegnare
                 ClearBackground(gioco.verde);
