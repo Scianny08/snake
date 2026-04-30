@@ -114,11 +114,14 @@ public:
         return false;
     }
 
+    void resetPunti() {
+        punteggio = 0;
+    }
+    
     void GameOver() {
         running = false;
         snake.Reset();
         cibo.posizione = cibo.NuovaPos(snake.corpo);
-        punteggio = 0;
     }
 
     void DisegnaScacchiera() {

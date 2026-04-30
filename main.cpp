@@ -96,6 +96,7 @@ int main () {
 
                     //disegno bottone e gestione del clic
                     if (GuiButton(rectGioca, "Gioca")) {
+                        gioco.resetPunti();
                         gioco.running = true;
                         SetMouseCursor(MOUSE_CURSOR_DEFAULT); //cursore normale quando clicco su gioca
                     }
