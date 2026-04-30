@@ -24,7 +24,7 @@ public:
     void Disegna(int grandezzaCella, Color colore) {
         unsigned int i; //unsigned perché corpo.size() restituisce un senza-segno
         //float perché Rectangle è composto da float
-        float x, y, posX, posY;
+        float posX, posY;
         float grandCella = (float)grandezzaCella;
 
         for (i=0; i<corpo.size(); i++) {
