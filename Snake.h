@@ -28,10 +28,8 @@ public:
         float grandCella = (float)grandezzaCella;
 
         for (i=0; i<corpo.size(); i++) {
-            x = corpo[i].x;
-            y = corpo[i].y;
-            posX = x*grandCella + utility.offset;
-            posY = y*grandCella + utility.offset;
+            posX = corpo[i].x*grandCella + utility.offset;
+            posY = corpo[i].y*grandCella + utility.offset;
 
             Rectangle cella = Rectangle{posX, posY, grandCella, grandCella};
 
