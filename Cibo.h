@@ -10,41 +10,69 @@ class Cibo {
 private:
     Utility utility;
 
+protected:
+    // Metodo virtuale puro: rende la classe "Modello" (Astratta)
+    virtual Image caricaImmagine() = 0;
+
 public:
     Vector2 posizione;
-    Texture2D mela;
+    Texture2D texture;
     int limiteCampo;
 
-    void generaCibo(deque<Vector2> corpoSnake, int limite) {
+    void genera(deque<Vector2> corpoSnake, int limite) {
+        if (texture.id > 0) {
+            UnloadTexture(texture);
+        }
+        
         limiteCampo = limite;
 
-        Image imgMela = LoadImage("Grafica/mela.png");
-        mela = LoadTextureFromImage(imgMela);
-        UnloadImage(imgMela); //distruttore dell'immagine (inutile dopo averla texturizzata)
+        Image img = caricaImmagine();
+        texture = LoadTextureFromImage(img);
+        UnloadImage(img); //distruttore dell'immagine (inutile dopo averla texturizzata)
         
         posizione = NuovaPos(corpoSnake);
     }
 
+
     //distruttore (della texture)
-    ~Cibo() {
-        UnloadTexture(mela);
+    virtual ~Cibo() {
+        UnloadTexture(texture);
     }
 
     void Disegna(int grandezza) {
-        //scala per DrawTextureEx
-        float scala = (float)grandezza / mela.width * 1.1f;
-        
-        //centra la mela dentro la cella
-        float offset = (grandezza - grandezza * 1.1f) / 2.0f;
+        //aumento percentuale
+        float perc = 1.1;
 
-        //moltiplico le coordinate per la grandezza in modo tale da adattarle al campo di gioco
-        Vector2 posSchermo = { 
-            posizione.x * grandezza + offset + utility.offset, 
-            posizione.y * grandezza + offset + utility.offset
-        };
+        //scala per DrawTextureEx
+        float scala = (float)grandezza / texture.width * perc;
+
+        Vector2 posSchermo;
+
+        //Calcolo coordinata x
+
+        //trovo l'inizio della cella corretta sulla griglia (il punto in alto a sinistra)
+        posSchermo.x = posizione.x * grandezza; 
+        //aggiungo il margine esterno del gioco
+        posSchermo.x += utility.offset; 
+        //mi sposto nel punto centrale della cella
+        posSchermo.x += (grandezza / 2.0f); 
+        //torno indietro di metà della larghezza dell'immagine per centrarla
+        posSchermo.x -= (scala * texture.width / 2.0f); 
+
+
+        //Calcolo coordinata y
+        
+        //trovo l'inizio della cella corretta sulla griglia (il punto in alto a sinistra)
+        posSchermo.y = posizione.y * grandezza; 
+        //aggiungo il margine esterno del gioco
+        posSchermo.y += utility.offset; 
+        //mi sposto nel punto centrale della cella
+        posSchermo.y += (grandezza / 2.0f); 
+        //torno indietro di metà dell'altezza dell'immagine per centrarla
+        posSchermo.y -= (scala * texture.height / 2.0f);
 
         // DrawTextureEx(texture, posizione, rotazione, scala, tinta)
-        DrawTextureEx(mela, posSchermo, 0.0f, scala, WHITE);
+        DrawTextureEx(texture, posSchermo, 0.0f, scala, WHITE);
     }
 
     Vector2 GeneraPosRandom() {

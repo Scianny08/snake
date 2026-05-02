@@ -3,6 +3,7 @@
 #include "Utility.h"
 #define RAYGUI_IMPLEMENTATION
 #include "raygui.h"
+#include <ctime>
 using namespace std;
 
 
@@ -12,7 +13,6 @@ int main () {
 
     int offset = utility.offset;
     float latoCampo = 2*offset+gioco.calcolaCampoGioco();
-    double velocitaSerpente = 200; //millisecondi
 
     float btnGiocaLarghezza = 200;
     float btnGiocaAltezza = 60;
@@ -22,9 +22,10 @@ int main () {
     float larghezzaNomeGioco60 = 0;
     float larghezzaMsgMorte = 0;
     float larghezzaMsgPunti = 0;
-    int tipoCollisione = 0; //1: corpo, 2: bordi
+    int tipoCollisione = 0; //0: vivo, 1: corpo, 2: bordi
 
     InitWindow(latoCampo, latoCampo, nomeGioco);
+        SetRandomSeed(time(0));
         SetTargetFPS(30);
 
         GuiSetStyle(DEFAULT, TEXT_SIZE, 30);
@@ -42,7 +43,7 @@ int main () {
                 //il serpente si muove ogni velocitaSerpente millisecondi
                 //altrimenti si muoverebbe agli fps settati
                 //devo controllare se il gioco runna altrimenti faccio controlli inutili
-                if (utility.EventTriggered(velocitaSerpente/1000) && gioco.running) {
+                if (utility.EventTriggered(gioco.snake.velocita/1000) && gioco.running) {
                     gioco.AggiornaSerpente();
                     //il controllo avviene dopo il movimento e prima del disegno,
                     //in questo modo il serpente non esce dal campo se va contro il bordo

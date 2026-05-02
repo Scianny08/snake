@@ -20,6 +20,8 @@ public:
     };
     Vector2 direzione = {1, 0};
     bool haMangiato = false;
+    double velocita = 200; //millisecondi
+    int crescita = 1;
 
     void Disegna(int grandezzaCella, Color colore) {
         unsigned int i; //unsigned perché corpo.size() restituisce un senza-segno
@@ -49,6 +51,11 @@ public:
         //se ha mangiato deve crescere quindi per un frame fermo la logica del togli-dietro
         if (haMangiato) {
             haMangiato = false;
+        } else if (crescita > 1) {
+            //se abbiamo mangiato qualcosa di grosso (es. polpette o birra)
+            //non togliamo la coda e scaliamo il contatore di 1
+            //in questo modo ad ogni frame nel main aumenterà gradualmente
+            crescita--;  
         } else {
             corpo.pop_back(); //tolgo dietro perché sono andato avanti
         }

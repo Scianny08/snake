@@ -4,14 +4,21 @@
 #include <raylib.h>
 #include <raymath.h>
 #include <deque>
-#include "Cibo.h"
+
+#include "Mela.h"
+#include "Birra.h"
+#include "Polpette.h"
+
 #include "Snake.h"
+
 #include "Utility.h"
+
 using namespace std;
 
 class Gioco {
 private:
     Utility utility;
+    Cibo* puntatoreCibo = nullptr; //puntatore alla classe cibo
 
 public:
     int grandezzaCella = 30;
@@ -19,7 +26,11 @@ public:
     int offset = utility.offset;
     
     Snake snake = Snake();
-    Cibo cibo;
+
+    Mela mela;
+    Polpette polpette;
+    Birra birra;
+    int tipoCibo = 0;
 
     Color verdechiaro = {170, 215, 81, 255};
     Color verde = {162, 209, 73, 255};
@@ -33,12 +44,33 @@ public:
     }
 
     void Disegna() {
-        cibo.Disegna(grandezzaCella);
+        puntatoreCibo->Disegna(grandezzaCella);
         snake.Disegna(grandezzaCella, verdescuro);
     }
 
     void generaCibo() {
-        cibo.generaCibo(snake.corpo, numCelle);
+        //distruzione: se il puntatore non è vuoto, elimina il vecchio oggetto
+        if (puntatoreCibo != nullptr) {
+            delete puntatoreCibo;
+            puntatoreCibo = nullptr; // reset a null
+        }
+
+        int chanceSpawining = GetRandomValue(1, 100);
+
+        if (chanceSpawining <= 70) {
+            tipoCibo = 0; //mela 70%
+        } else if (chanceSpawining <= 90) {
+            tipoCibo = 1; //birra 20%
+        } else {
+            tipoCibo = 2; //polpette 10%
+        }
+
+        switch (tipoCibo) {
+            case 0: puntatoreCibo = new Mela(); break;
+            case 1: puntatoreCibo = new Birra(); break;
+            case 2: puntatoreCibo = new Polpette(); break;
+        }
+        puntatoreCibo->genera(snake.corpo, numCelle);
     }
 
     void AggiornaSerpente() {
@@ -83,10 +115,33 @@ public:
     }
 
     void CollisioneConCibo() {
-        if (Vector2Equals(snake.corpo[0], cibo.posizione)) {
-            cibo.posizione = cibo.NuovaPos(snake.corpo);
+        if (Vector2Equals(snake.corpo[0], puntatoreCibo->posizione)) {
+            puntatoreCibo->posizione = puntatoreCibo->NuovaPos(snake.corpo);
+
             snake.haMangiato = true;
+
             punteggio++;
+
+            //quale cibo?
+            switch (tipoCibo) {
+                case 0: //mela
+                    snake.velocita = 200; //normale
+                    snake.crescita = 1;
+                    break;
+
+                case 1:
+                    snake.velocita = 150; //aumenta
+                    snake.crescita = 2; //diventa ciccione
+                    break;
+
+                case 2:
+                    snake.velocita = 400; //diminuisce
+                    snake.crescita = 3; //diventa un obeso
+                    break;
+            }
+
+            //cancella vecchio cibo
+            generaCibo();
         } //fine if
     } //fine metodo
 
@@ -121,7 +176,7 @@ public:
     void GameOver() {
         running = false;
         snake.Reset();
-        cibo.posizione = cibo.NuovaPos(snake.corpo);
+        puntatoreCibo->posizione = puntatoreCibo->NuovaPos(snake.corpo);
     }
 
     void DisegnaScacchiera() {
