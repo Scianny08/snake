@@ -130,7 +130,7 @@ public:
                     break;
 
                 case 1:
-                    snake.velocita = 150; //aumenta
+                    snake.velocita = 125; //aumenta
                     snake.crescita = 2; //diventa ciccione
                     break;
 
