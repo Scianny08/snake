@@ -135,7 +135,7 @@ public:
                     break;
 
                 case 2:
-                    snake.velocita = 400; //diminuisce
+                    snake.velocita = 275; //diminuisce
                     snake.crescita = 3; //diventa un obeso
                     break;
             }
